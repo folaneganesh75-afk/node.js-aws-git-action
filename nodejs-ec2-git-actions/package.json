@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-ec2-github-actions",
+  "version": "1.0.0",
+  "description": "Node.js application deployed on AWS EC2 using GitHub Actions CI/CD",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,82 @@
+name: Node.js AWS EC2 CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Dependencies
+        working-directory: nodejs-ec2-github-actions
+        run: npm ci
+
+      - name: Run Application Tests
+        working-directory: nodejs-ec2-github-actions
+        run: npm test
+
+      - name: Create Deployment Package
+        run: |
+          cd nodejs-ec2-github-actions
+          zip -r ../deploy.zip . -x "node_modules/*"
+
+      - name: Copy Application to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          source: "deploy.zip"
+          target: "/home/ec2-user/"
+
+      - name: Deploy Application on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+
+          script: |
+            set -e
+
+            APP_DIR="/home/ec2-user/nodejs-website"
+
+            mkdir -p "$APP_DIR"
+
+            unzip -o /home/ec2-user/deploy.zip -d "$APP_DIR"
+
+            rm -f /home/ec2-user/deploy.zip
+
+            cd "$APP_DIR"
+
+            npm ci --omit=dev
+
+            if pm2 describe nodejs-website >/dev/null 2>&1; then
+              pm2 restart nodejs-website --update-env
+            else
+              pm2 start server.js --name nodejs-website
+            fi
+
+            pm2 save
+
+            echo "Node.js Application Successfully Deployed!"

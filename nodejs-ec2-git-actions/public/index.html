@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganesh Folane | Node.js CI/CD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <h2>Ganesh<span>DevOps</span></h2>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#deployment">Deployment</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="tag">AWS CLOUD DEPLOYMENT</p>
+
+            <h1>
+                Welcome to <span>Node.js</span><br>
+                CI/CD Project
+            </h1>
+
+            <p class="description">
+                Automated Node.js application deployment on AWS EC2
+                using GitHub Actions.
+            </p>
+
+            <a href="#deployment" class="btn">Explore Project</a>
+        </div>
+
+        <div class="hero-card">
+            <div class="status-indicator"></div>
+            <h2>Application Status</h2>
+            <h1 id="status">Checking...</h1>
+            <p id="message">Connecting to Node.js server...</p>
+            <button onclick="checkHealth()">Check Health</button>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2>Technology Stack</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Node.js</h3>
+                <p>Backend application runtime.</p>
+            </div>
+
+            <div class="card">
+                <h3>AWS EC2</h3>
+                <p>Cloud server for application hosting.</p>
+            </div>
+
+            <div class="card">
+                <h3>GitHub Actions</h3>
+                <p>Automated CI/CD pipeline.</p>
+            </div>
+
+            <div class="card">
+                <h3>PM2</h3>
+                <p>Node.js application process manager.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="deployment" id="deployment">
+        <h2>Automated Deployment</h2>
+        <p>
+            Developer pushes code to GitHub.
+            GitHub Actions runs tests and deploys the application
+            directly to AWS EC2.
+        </p>
+
+        <div class="pipeline">
+            <div>Developer</div>
+            <span>→</span>
+            <div>GitHub</div>
+            <span>→</span>
+            <div>GitHub Actions</div>
+            <span>→</span>
+            <div>AWS EC2</div>
+        </div>
+
+        <p class="developer">Developed by Ganesh Folane</p>
+    </section>
+
+    <footer>
+        <p>© 2026 Ganesh Folane | Node.js AWS CI/CD Project</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
